@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MrJb.NetAspire.OpenTelemetry": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

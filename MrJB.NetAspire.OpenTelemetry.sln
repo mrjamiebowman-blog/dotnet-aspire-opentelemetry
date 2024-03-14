@@ -3,12 +3,50 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solution Items", "{2F9A6BF7-C81C-4FC8-9733-0F846CD1C2EB}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E86D88E1-4731-4BE0-B1DF-E18B94D52B1F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "aspire", "aspire", "{F84EAD4B-092A-4CDB-BEEE-198E22ECC36F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrJb.NetAspire.Host", "aspire\MrJb.NetAspire.Host\MrJb.NetAspire.Host.csproj", "{11385122-494D-4DEF-BDA8-7FBA39493CEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrJb.NetAspire.ServiceDefaults", "aspire\MrJb.NetAspire.ServiceDefaults\MrJb.NetAspire.ServiceDefaults.csproj", "{3A0A4AE3-D319-476A-B6E9-95AA74EABA7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrJb.NetAspire.Console", "src\MrJb.NetAspire.OpenTelemetry\MrJb.NetAspire.Console.csproj", "{7028CBC8-E0A3-4C55-B529-0D637D80456E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{11385122-494D-4DEF-BDA8-7FBA39493CEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11385122-494D-4DEF-BDA8-7FBA39493CEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11385122-494D-4DEF-BDA8-7FBA39493CEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11385122-494D-4DEF-BDA8-7FBA39493CEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A0A4AE3-D319-476A-B6E9-95AA74EABA7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A0A4AE3-D319-476A-B6E9-95AA74EABA7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A0A4AE3-D319-476A-B6E9-95AA74EABA7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A0A4AE3-D319-476A-B6E9-95AA74EABA7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7028CBC8-E0A3-4C55-B529-0D637D80456E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7028CBC8-E0A3-4C55-B529-0D637D80456E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7028CBC8-E0A3-4C55-B529-0D637D80456E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7028CBC8-E0A3-4C55-B529-0D637D80456E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{11385122-494D-4DEF-BDA8-7FBA39493CEB} = {F84EAD4B-092A-4CDB-BEEE-198E22ECC36F}
+		{3A0A4AE3-D319-476A-B6E9-95AA74EABA7E} = {F84EAD4B-092A-4CDB-BEEE-198E22ECC36F}
+		{7028CBC8-E0A3-4C55-B529-0D637D80456E} = {E86D88E1-4731-4BE0-B1DF-E18B94D52B1F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CCAE18AC-909C-4EC3-96E5-7C0769464396}
 	EndGlobalSection
 EndGlobal
