@@ -229,8 +229,11 @@ services:
       - .env    
     ports:
       - 9090:9090
+    volumes:
+     - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+     - ./prometheus/rules.yml:/etc/prometheus/rules.yml
     command:
-      - --config.file=/etc/prometheus/prometheus.yaml
+      - --config.file=/etc/prometheus/prometheus.yml
     restart: always      
   # grafana
   grafana:
