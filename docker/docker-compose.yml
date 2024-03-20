@@ -264,7 +264,7 @@ services:
 
   # zipkin
   zipkin:
-    image: ghcr.io/openzipkin/zipkin-ui
+    image: openzipkin/zipkin
     container_name: zipkin
     environment:
       # Change this if connecting to a different zipkin server
