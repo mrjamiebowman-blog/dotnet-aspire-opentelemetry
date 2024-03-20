@@ -268,9 +268,7 @@ services:
     container_name: zipkin
     environment:
       # Change this if connecting to a different zipkin server
-      - ZIPKIN_BASE_URL=http://zipkin:9411
+      - ZIPKIN_BASE_URL=http://localhost:9411
     ports:
       - 8081:80
-    # depends_on:
-    #   prometheus:
-    #     condition: service_healthy
+      - 9411:9411
