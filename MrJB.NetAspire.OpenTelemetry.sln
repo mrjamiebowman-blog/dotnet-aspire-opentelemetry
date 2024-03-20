@@ -6,6 +6,10 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solution Items", "{2F9A6BF7-C81C-4FC8-9733-0F846CD1C2EB}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		docker\docker-compose.yml = docker\docker-compose.yml
+		docker\filebeat.yml = docker\filebeat.yml
+		docker\logstash.conf = docker\logstash.conf
+		docker\metricbeat.yml = docker\metricbeat.yml
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -13,11 +17,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E86D88E1-473
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "aspire", "aspire", "{F84EAD4B-092A-4CDB-BEEE-198E22ECC36F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrJb.NetAspire.Host", "aspire\MrJb.NetAspire.Host\MrJb.NetAspire.Host.csproj", "{11385122-494D-4DEF-BDA8-7FBA39493CEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MrJb.NetAspire.Host", "aspire\MrJb.NetAspire.Host\MrJb.NetAspire.Host.csproj", "{11385122-494D-4DEF-BDA8-7FBA39493CEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrJb.NetAspire.ServiceDefaults", "aspire\MrJb.NetAspire.ServiceDefaults\MrJb.NetAspire.ServiceDefaults.csproj", "{3A0A4AE3-D319-476A-B6E9-95AA74EABA7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MrJb.NetAspire.ServiceDefaults", "aspire\MrJb.NetAspire.ServiceDefaults\MrJb.NetAspire.ServiceDefaults.csproj", "{3A0A4AE3-D319-476A-B6E9-95AA74EABA7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrJb.NetAspire.Console", "src\MrJb.NetAspire.OpenTelemetry\MrJb.NetAspire.Console.csproj", "{7028CBC8-E0A3-4C55-B529-0D637D80456E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MrJb.NetAspire.Console", "src\MrJb.NetAspire.OpenTelemetry\MrJb.NetAspire.Console.csproj", "{7028CBC8-E0A3-4C55-B529-0D637D80456E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
