@@ -1,7 +1,3 @@
-using Aspire.Hosting;
-using System.Net.Sockets;
-using System.Runtime.Intrinsics.Arm;
-
 var builder = DistributedApplication.CreateBuilder(args);
 
 // components (just for example...)
@@ -20,7 +16,6 @@ builder.AddContainer("jaeger", "jaegertracing/all-in-one");
 //  -p 14268:14268 \
 //  -p 9411:9411 \
 //  jaegertracing / all -in-one:1.6
-
 
 // services
 builder.AddProject<Projects.MrJb_NetAspire_Console>("console");
