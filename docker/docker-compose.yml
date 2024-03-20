@@ -1,4 +1,5 @@
-version: "3.8"
+version: "3.9"
+name: mrjb-otel
 
 volumes:
   certs:
@@ -16,7 +17,7 @@ volumes:
 
 networks:
   default:
-    name: elastic
+    name: mrjb-otel
     external: false
 
 services:
@@ -218,10 +219,55 @@ services:
       - ELASTIC_USER=elastic
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
       - ELASTIC_HOSTS=https://es01:9200
-# jaeger
+  # prometheus
+  prometheus:
+    container_name: prometheus
+    hostname: prometheus
+    build: .
+    image: prom/prometheus
+    env_file:
+      - .env    
+    ports:
+      - 9090:9090
+    command:
+      - --config.file=/etc/prometheus/prometheus.yaml
+    restart: always      
+  # grafana
+  grafana:
+    container_name: grafana
+    hostname: grafana
+    image: grafana/grafana
+    ports:
+     - 3000:3000
+    volumes:
+     - ./data/grafana:/var/lib/grafana     
+    restart: unless-stopped
+  # jaeger
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "6831:6831/udp"
+      - "16686:16686"
+  # hotrod:
+  #   image: jaegertracing/example-hotrod:latest
+  #   ports: 
+  #     - 8080:8080
+  #   command: ["all"]
+  #   environment:
+  #     - JAEGER_AGENT_HOST=jaeger
+  #     - JAEGER_AGENT_PORT=6831
+  #   depends_on:
+  #     - jaeger
 
-# zipkin
-
-# prometheus
-
-# grafana
+  # zipkin
+  zipkin:
+    image: ghcr.io/openzipkin/zipkin-ui
+    container_name: zipkin
+    environment:
+      # Change this if connecting to a different zipkin server
+      - ZIPKIN_BASE_URL=http://zipkin:9411
+    ports:
+      - 8081:80
+    # depends_on:
+    #   prometheus:
+    #     condition: service_healthy
