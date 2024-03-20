@@ -6,11 +6,14 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solution Items", "{2F9A6BF7-C81C-4FC8-9733-0F846CD1C2EB}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		builder-docker.ps1 = builder-docker.ps1
 		docker\docker-compose.yml = docker\docker-compose.yml
+		down.ps1 = down.ps1
 		docker\filebeat.yml = docker\filebeat.yml
 		docker\logstash.conf = docker\logstash.conf
 		docker\metricbeat.yml = docker\metricbeat.yml
 		README.md = README.md
+		up.ps1 = up.ps1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E86D88E1-4731-4BE0-B1DF-E18B94D52B1F}"
