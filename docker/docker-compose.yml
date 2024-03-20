@@ -262,7 +262,7 @@ services:
   #   depends_on:
   #     - jaeger
 
-  # zipkin
+  # zipkin (http://localhost:9411/zipkin/)
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
@@ -270,5 +270,4 @@ services:
       # Change this if connecting to a different zipkin server
       - ZIPKIN_BASE_URL=http://localhost:9411
     ports:
-      - 8081:80
       - 9411:9411
