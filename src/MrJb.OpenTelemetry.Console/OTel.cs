@@ -13,8 +13,6 @@ public static class OTel
 
     public static class MetricNames
     {
-        #region defendant
-
         public const string test = "mrjb.opentelemetry.";
     }
 
