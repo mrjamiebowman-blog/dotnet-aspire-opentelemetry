@@ -20,4 +20,8 @@ builder.AddContainer("jaeger", "jaegertracing/all-in-one");
 // services
 builder.AddProject<Projects.MrJb_NetAspire_Console>("console");
 
+builder.AddProject<Projects.MrJb_OpenTelemetry_Api_Customers>("mrjb-opentelemetry-api-customers");
+
+builder.AddProject<Projects.MrJb_OpenTelemetry_Api_Orders>("mrjb-opentelemetry-api-orders");
+
 builder.Build().Run();

@@ -13,7 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MrJb.NetAspire.OpenTelemetry\MrJb.NetAspire.Console.csproj" />
+    <ProjectReference Include="..\..\src\MrJb.NetAspire.OpenTelemetry\MrJb.OpenTelemetry.Console.csproj" />
+    <ProjectReference Include="..\..\src\MrJb.OpenTelemetry.Api.Customers\MrJb.OpenTelemetry.Api.Customers.csproj" />
+    <ProjectReference Include="..\..\src\MrJb.OpenTelemetry.Api.Orders\MrJb.OpenTelemetry.Api.Orders.csproj" />
   </ItemGroup>
 
 </Project>

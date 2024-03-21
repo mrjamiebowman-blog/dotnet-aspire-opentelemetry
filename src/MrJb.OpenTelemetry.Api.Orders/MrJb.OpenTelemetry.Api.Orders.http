@@ -1,0 +1,6 @@
+@MrJb.OpenTelemetry.Api.Orders_HostAddress = http://localhost:5179
+
+GET {{MrJb.OpenTelemetry.Api.Orders_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
