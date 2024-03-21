@@ -19,7 +19,6 @@ public class ConfigurationBuilder
         'AllowedHosts': '*',
     }";
 
-
     [Fact]
     public Task Create_Configuration_Console_Test()
     {
