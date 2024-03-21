@@ -4,7 +4,7 @@ var builder = DistributedApplication.CreateBuilder(args);
 builder.AddRabbitMQ("rabbitmq");
 
 // jaeger for distributed tracing
-builder.AddContainer("jaeger", "jaegertracing/all-in-one");
+//builder.AddContainer("jaeger", "jaegertracing/all-in-one");
 
 //$ docker run -d --name jaeger \
 //  -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 \
@@ -18,7 +18,7 @@ builder.AddContainer("jaeger", "jaegertracing/all-in-one");
 //  jaegertracing / all -in-one:1.6
 
 // services
-builder.AddProject<Projects.MrJb_NetAspire_Console>("console");
+builder.AddProject<Projects.MrJb_OpenTelemetry_Console>("console");
 
 builder.AddProject<Projects.MrJb_OpenTelemetry_Api_Customers>("mrjb-opentelemetry-api-customers");
 
