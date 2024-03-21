@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace MrJb.OpenTelemetry.Tests.Developer;
 
-public class ConfigurationBuilder
+public class ConfigurationBuilderTests
 {
     private string _loggingJson = @"{
         'Logging': {
