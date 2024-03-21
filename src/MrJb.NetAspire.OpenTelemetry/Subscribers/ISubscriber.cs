@@ -1,4 +1,4 @@
-﻿namespace MrJb.NetAspire.OpenTelemetry.Subscribers;
+﻿namespace MrJb.OpenTelemetry.Console.Subscribers;
 
 public interface ISubscriber
 {

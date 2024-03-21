@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MrJb.NetAspire.OpenTelemetry.Subscribers;
+using MrJb.OpenTelemetry.Console.Subscribers;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;

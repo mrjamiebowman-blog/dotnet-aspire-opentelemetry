@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace MrJb.NetAspire.OpenTelemetry.Subscribers;
+namespace MrJb.OpenTelemetry.Console.Subscribers;
 
 public class AzureServiceBusSubscriber : ISubscriber
 {
@@ -14,7 +14,8 @@ public class AzureServiceBusSubscriber : ISubscriber
 
     public async Task StartConsumerAsync(CancellationToken cancellationToken)
     {
-        while (!cancellationToken.IsCancellationRequested) {
+        while (!cancellationToken.IsCancellationRequested)
+        {
             // do work!
 
             await Task.Delay(1000);

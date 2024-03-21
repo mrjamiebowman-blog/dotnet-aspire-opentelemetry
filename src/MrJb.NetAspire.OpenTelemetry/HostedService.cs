@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using MrJb.NetAspire.OpenTelemetry.Subscribers;
+using MrJb.OpenTelemetry.Console.Subscribers;
 
-namespace MrJb.NetAspire.Console;
+namespace MrJb.OpenTelemetry.Console;
 
 public class HostedService : IHostedService
 {
