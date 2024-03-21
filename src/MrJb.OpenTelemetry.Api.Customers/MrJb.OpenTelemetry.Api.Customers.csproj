@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\aspire\MrJb.NetAspire.ServiceDefaults\MrJb.NetAspire.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\MrJB.OpenTelemetry.Domain\MrJB.OpenTelemetry.Domain.csproj" />
   </ItemGroup>
 
 </Project>
