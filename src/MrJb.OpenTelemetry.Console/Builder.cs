@@ -51,4 +51,41 @@ public static class Builder
 
         return services;
     }
+
+
+
+    //public static WebApplicationBuilder ConfigureOpenTelemetry(this WebApplicationBuilder builder)
+    //{
+    //    // define attributes for your application
+    //    var resourceBuilder = ResourceBuilder.CreateDefault()
+    //        .AddService(OTel.ApplicationName, serviceVersion: "1.0.0")
+    //        .AddTelemetrySdk()
+    //        .AddAttributes(new Dictionary<string, object>
+    //        {
+    //            ["host.name"] = Environment.MachineName,
+    //            ["os.description"] = RuntimeInformation.OSDescription,
+    //            ["deployment.environment"] = builder.Environment.EnvironmentName.ToLowerInvariant()
+    //        });
+    //    //.AddConsoleExporter()
+
+    //    // 
+    //    builder.Services
+    //        .AddOpenTelemetry()
+    //        .WithTracing(tb => tb
+    //            .AddSource(OTel.Application.Name)
+    //            .AddSource(IdentityServerConstants.Tracing.Basic)
+    //            .AddSource(IdentityServerConstants.Tracing.Cache)
+    //            .AddSource(IdentityServerConstants.Tracing.Services)
+    //            .AddSource(IdentityServerConstants.Tracing.Stores)
+    //            .AddSource(IdentityServerConstants.Tracing.Validation)
+    //            .ConfigureResource(r => r.AddService(OTel.ApplicationName))
+    //        //.AddAzureMonitorTraceExporter(options => options.ConnectionString = appInsightsConnectionString)
+    //        )
+    //        .WithMetrics(mb => mb.ConfigureResource(r => r.AddService(OTel.ApplicationName)))
+    //        //.AddAzureMonitorMetricExporter(options => options.ConnectionString = appInsightsConnectionString)
+    //        //.AddConsoleExporter()
+    //        ;
+
+    //    return builder;
+    //}
 }

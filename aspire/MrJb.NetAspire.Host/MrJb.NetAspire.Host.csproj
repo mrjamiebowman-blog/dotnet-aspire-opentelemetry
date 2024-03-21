@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\MrJb.OpenTelemetry.Api.Customers\MrJb.OpenTelemetry.Api.Customers.csproj" />
     <ProjectReference Include="..\..\src\MrJb.OpenTelemetry.Api.Orders\MrJb.OpenTelemetry.Api.Orders.csproj" />
+    <ProjectReference Include="..\..\src\MrJb.OpenTelemetry.Console\MrJb.OpenTelemetry.Console.csproj" />
   </ItemGroup>
 
 </Project>
