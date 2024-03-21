@@ -26,7 +26,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MrJb.NetAspire.ServiceDefau
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tes", "tes", "{14D44430-A454-4282-833A-C3585E4108A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrJb.OpenTelemetry.Tests.Developer", "test\MrJb.OpenTelemetry.Tests.Developer\MrJb.OpenTelemetry.Tests.Developer.csproj", "{54217E36-6A82-4257-BAB8-1FEA54055FD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MrJb.OpenTelemetry.Tests.Developer", "test\MrJb.OpenTelemetry.Tests.Developer\MrJb.OpenTelemetry.Tests.Developer.csproj", "{54217E36-6A82-4257-BAB8-1FEA54055FD9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MrJb.OpenTelemetry.Api.Customers", "src\MrJb.OpenTelemetry.Api.Customers\MrJb.OpenTelemetry.Api.Customers.csproj", "{3DC9DA0D-585E-4AD4-A1CD-2AFE0237CEA8}"
 EndProject
@@ -36,7 +36,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{14E0910B-49F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "console", "console", "{5753B4FC-DA18-45E7-A26F-C314883E1E33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrJB.OpenTelemetry.Domain", "src\MrJB.OpenTelemetry.Domain\MrJB.OpenTelemetry.Domain.csproj", "{8E3B9ADA-0825-4292-956A-1C698AD0ECB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MrJB.OpenTelemetry.Domain", "src\MrJB.OpenTelemetry.Domain\MrJB.OpenTelemetry.Domain.csproj", "{8E3B9ADA-0825-4292-956A-1C698AD0ECB4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MrJb.OpenTelemetry.Console", "src\MrJb.OpenTelemetry.Console\MrJb.OpenTelemetry.Console.csproj", "{F64970B3-EB83-4E35-B5A0-42176047F915}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +70,10 @@ Global
 		{8E3B9ADA-0825-4292-956A-1C698AD0ECB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E3B9ADA-0825-4292-956A-1C698AD0ECB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E3B9ADA-0825-4292-956A-1C698AD0ECB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F64970B3-EB83-4E35-B5A0-42176047F915}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F64970B3-EB83-4E35-B5A0-42176047F915}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F64970B3-EB83-4E35-B5A0-42176047F915}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F64970B3-EB83-4E35-B5A0-42176047F915}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +87,7 @@ Global
 		{14E0910B-49FE-4458-8127-15502DA76AFA} = {E86D88E1-4731-4BE0-B1DF-E18B94D52B1F}
 		{5753B4FC-DA18-45E7-A26F-C314883E1E33} = {E86D88E1-4731-4BE0-B1DF-E18B94D52B1F}
 		{8E3B9ADA-0825-4292-956A-1C698AD0ECB4} = {E86D88E1-4731-4BE0-B1DF-E18B94D52B1F}
+		{F64970B3-EB83-4E35-B5A0-42176047F915} = {5753B4FC-DA18-45E7-A26F-C314883E1E33}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CCAE18AC-909C-4EC3-96E5-7C0769464396}
