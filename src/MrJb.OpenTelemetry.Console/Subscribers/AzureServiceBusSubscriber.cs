@@ -18,6 +18,13 @@ public class AzureServiceBusSubscriber : ISubscriber
         {
             // do work!
 
+            // path #1 - create an order
+            // call customers api
+
+            // call orders api
+
+            // path #2 - lookup orders
+
             await Task.Delay(1000);
         }
     }
