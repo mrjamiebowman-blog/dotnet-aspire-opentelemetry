@@ -20,8 +20,8 @@ builder.AddRabbitMQ("rabbitmq");
 // services
 builder.AddProject<Projects.MrJb_OpenTelemetry_Console>("console");
 
-builder.AddProject<Projects.MrJb_OpenTelemetry_Api_Customers>("mrjb-opentelemetry-api-customers");
+builder.AddProject<Projects.MrJb_OpenTelemetry_Api_Customers>("api-customers");
 
-builder.AddProject<Projects.MrJb_OpenTelemetry_Api_Orders>("mrjb-opentelemetry-api-orders");
+builder.AddProject<Projects.MrJb_OpenTelemetry_Api_Orders>("api-orders");
 
 builder.Build().Run();
