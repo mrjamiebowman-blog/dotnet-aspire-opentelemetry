@@ -7,6 +7,8 @@ builder.AddServiceDefaults();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.BootstrapApplication(builder.Configuration);
+
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
