@@ -1,11 +1,15 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using MrJB.OpenTelemetry.Domain.Configuration;
+using Newtonsoft.Json.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Xunit.Abstractions;
 
 namespace MrJb.OpenTelemetry.Tests.Developer;
 
 public class ConfigurationBuilderTests
 {
+    private readonly ITestOutputHelper _testOutputHelper;
+
     private string _loggingJson = @"{
         'Logging': {
             'LogLevel': {
@@ -19,62 +23,53 @@ public class ConfigurationBuilderTests
         'AllowedHosts': '*',
     }";
 
+    public ConfigurationBuilderTests(ITestOutputHelper testOutputHelper)
+    {
+        _testOutputHelper = testOutputHelper;
+    }
+
     [Fact]
     public Task Create_Configuration_Console_Test()
     {
         // configuration builder
-        var appConfig = new
-        {
-            //IdentityServer = new IdentityServerConfiguration()
-            //{
-            //    ConnectionString = "connection-string",
-            //    Google = new IdentityServerConfiguration.GoogleConfiguration()
-            //    {
-            //        Id = "google-id",
-            //        Secret = "secret"
-            //    }
-            //},
-            //Cache = new CacheConfiguration()
-            //{
-            //    ConnectionString = "connection-string",
-            //    AbsoluteExpirationRelativeToNow = new TimeSpan(0, 01, 15, 00),
-            //    InstanceName = "redis-master",
-            //    SlidingExpiration = new TimeSpan(0, 01, 15, 00)
-            //},
-            //SigningKeys = new KeyVaultCertConfig()
-            //{
-            //    KeyVaultUri = "key-vault-uri"
-            //}
-        };
-
-        // config
         var config = new
         {
-            IdentityServer = appConfig
-        };
+            HoneyComb = new HoneyCombConfiguration()
+            {
+                ServiceName = "service-name",
+                ApiKey = "api-key"
+            },
+            ApplicationInsights = new ApplicationInsightsConfiguration()
+            {
+                ConnectionString = "connection-string",
+            }
+         };
 
         // json
-        JsonSerializerOptions options = new JsonSerializerOptions
-        {
+        JsonSerializerOptions options = new JsonSerializerOptions {
             Converters = {
-            new JsonStringEnumConverter()
-        }
+                new JsonStringEnumConverter()
+            }
         };
 
+        // serialize
         var json = JsonSerializer.Serialize(config, options);
 
         // merge json
         JObject loggingConfig = JObject.Parse(_loggingJson);
         JObject configJson = JObject.Parse(json);
 
-        loggingConfig.Merge(configJson, new JsonMergeSettings
-        {
+        loggingConfig.Merge(configJson, new JsonMergeSettings {
             MergeArrayHandling = MergeArrayHandling.Union
         });
+
+        // to json string
         json = loggingConfig.ToString();
 
         // output
-        Console.WriteLine(json);
+        _testOutputHelper.WriteLine(json);
+
+        // create file
 
         return Task.CompletedTask;
     }
