@@ -18,7 +18,7 @@ public static class Builder
     public static IServiceCollection ConfigureOpenTelemetry(this IServiceCollection services, IConfiguration configuration)
     {
         // honeycomb
-        //var honeycombOptions = configuration.GetHoneycombOptions();
+        var honeycombOptions = configuration.GetHoneycombOptions();
         var honeyCombApiKey = configuration["Honeycomb:ApiKey"];
 
         // open telemetry
@@ -30,8 +30,8 @@ public static class Builder
 
         services.AddOpenTelemetry().WithTracing(builder => builder
             .SetResourceBuilder(resource)
-            //.AddHoneycomb(honeycombOptions)
-            //.AddCommonInstrumentations()
+            .AddHoneycomb(honeycombOptions)
+            .AddCommonInstrumentations()
             .AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
             .AddAspNetCoreInstrumentationWithBaggage()
@@ -43,7 +43,7 @@ public static class Builder
             }));
 
         // register tracer so it can be injected into other components(eg Controllers)
-        //services.AddSingleton(TracerProvider.Default.GetTracer(honeycombOptions.ServiceName));
+        services.AddSingleton(TracerProvider.Default.GetTracer(honeycombOptions.ServiceName));
 
         return services;
     }
