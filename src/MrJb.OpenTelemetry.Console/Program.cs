@@ -2,8 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MrJb.OpenTelemetry.Console;
-using Serilog.Events;
 using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.SystemConsole.Themes;
 using System.Reflection;
 
 Log.Logger = new LoggerConfiguration()
