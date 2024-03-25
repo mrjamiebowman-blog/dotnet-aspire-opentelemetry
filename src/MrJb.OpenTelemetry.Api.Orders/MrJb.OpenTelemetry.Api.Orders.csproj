@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Honeycomb" Version="1.4.0" />
+    <PackageReference Include="Honeycomb.AspNetCore" Version="1.4.0" />
+    <PackageReference Include="Honeycomb.OpenTelemetry.Instrumentation.AspNetCore" Version="0.29.0-beta" />
+    <PackageReference Include="Honeycomb.Serilog.Sink" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0-preview.2.24128.4" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.0-Preview.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
