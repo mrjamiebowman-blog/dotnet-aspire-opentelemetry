@@ -24,7 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MrJb.NetAspire.Host", "aspi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MrJb.NetAspire.ServiceDefaults", "aspire\MrJb.NetAspire.ServiceDefaults\MrJb.NetAspire.ServiceDefaults.csproj", "{3A0A4AE3-D319-476A-B6E9-95AA74EABA7E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tes", "tes", "{14D44430-A454-4282-833A-C3585E4108A5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{14D44430-A454-4282-833A-C3585E4108A5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MrJb.OpenTelemetry.Tests.Developer", "test\MrJb.OpenTelemetry.Tests.Developer\MrJb.OpenTelemetry.Tests.Developer.csproj", "{54217E36-6A82-4257-BAB8-1FEA54055FD9}"
 EndProject
