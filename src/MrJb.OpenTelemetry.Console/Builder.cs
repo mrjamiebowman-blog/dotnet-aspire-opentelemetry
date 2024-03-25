@@ -35,7 +35,7 @@ public static class Builder
         services.AddOpenTelemetry().WithTracing(builder => builder
             .SetResourceBuilder(resource)
             .AddHoneycomb(honeycombOptions)
-            .AddCommonInstrumentations()
+            //.AddCommonInstrumentations()
             .AddOtlpExporter(option =>
             {
                 option.Endpoint = new Uri("https://api.honeycomb.io/v1/traces");
