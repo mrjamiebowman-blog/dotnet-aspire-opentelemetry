@@ -73,14 +73,15 @@ public class ConfigurationBuilderTests
         var path = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent?.Parent?.Parent?.FullName;
 
         // combine paths
-        var pathConsole = Path.Combine(path, "src\\MrJb.OpenTelemetry.Console\\appSettings.mrjb.json");
-        var pathApiCustomers = Path.Combine(path, "src\\MrJb.OpenTelemetry.Api.Customers\\appSettings.mrjb.json");
-        var pathApiOrders = Path.Combine(path, "src\\MrJb.OpenTelemetry.Api.Orders\\appSettings.mrjb.json");
+        var pathBaseFile = Path.Combine(path, "appsettings.mrjb.json");
+        var pathConsole = Path.Combine(path, "src\\MrJb.OpenTelemetry.Console\\appsettings.mrjb.json");
+        var pathApiCustomers = Path.Combine(path, "src\\MrJb.OpenTelemetry.Api.Customers\\appsettings.mrjb.json");
+        var pathApiOrders = Path.Combine(path, "src\\MrJb.OpenTelemetry.Api.Orders\\appsettings.mrjb.json");
 
         try
         {
             // create file
-            await File.WriteAllTextAsync(path, json);
+            await File.WriteAllTextAsync(pathBaseFile, json);
             await File.WriteAllTextAsync(pathConsole, json);
             await File.WriteAllTextAsync(pathApiCustomers, json);
             await File.WriteAllTextAsync(pathApiOrders, json);
