@@ -3,6 +3,7 @@ using OpenTelemetry.Trace;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
+using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,9 +63,27 @@ app.MapPost("/customers", () =>
     try
     {
         // metric
+        var tagList = new TagList();
+        tagList.Add("customer.id", "");
+        tagList.Add("customer.email", "");
+
         //OTel.Meters.AddGetOrder(1, TagList);
 
+        // set tags
+        activity?.SetTag("customer.id", "");
+        activity?.SetTag("customer.email", "");
+
+        // event
+        var tags = new ActivityTagsCollection();
+        tags["customer.id"] = "1234";
+
+        var e = new ActivityEvent("MrJB.OTel.Customers.API.Get", DateTimeOffset.Now, tags);
+        activity?.AddEvent(e);
+
         //var data = GetOrders();
+
+        activity?.SetStatus(ActivityStatusCode.Ok);
+
         return "";
 
     }
