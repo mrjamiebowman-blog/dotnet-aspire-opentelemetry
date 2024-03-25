@@ -29,7 +29,7 @@ public class ConfigurationBuilderTests
     }
 
     [Fact]
-    public Task Create_Configuration_Console_Test()
+    public async Task Create_Configuration_Console_Test()
     {
         // configuration builder
         var config = new
@@ -69,9 +69,26 @@ public class ConfigurationBuilderTests
         // output
         _testOutputHelper.WriteLine(json);
 
-        // create file
+        // path (root of project)
+        var path = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent?.Parent?.Parent?.FullName;
 
-        return Task.CompletedTask;
+        // combine paths
+        var pathConsole = Path.Combine(path, "src\\MrJb.OpenTelemetry.Console\\appSettings.mrjb.json");
+        var pathApiCustomers = Path.Combine(path, "src\\MrJb.OpenTelemetry.Api.Customers\\appSettings.mrjb.json");
+        var pathApiOrders = Path.Combine(path, "src\\MrJb.OpenTelemetry.Api.Orders\\appSettings.mrjb.json");
+
+        try
+        {
+            // create file
+            await File.WriteAllTextAsync(path, json);
+            await File.WriteAllTextAsync(pathConsole, json);
+            await File.WriteAllTextAsync(pathApiCustomers, json);
+            await File.WriteAllTextAsync(pathApiOrders, json);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
     }
 
     [Fact]

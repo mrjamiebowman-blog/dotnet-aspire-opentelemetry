@@ -12,6 +12,8 @@
 
 docker/data
 
+appsettings.mrjb.json
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
