@@ -32,10 +32,10 @@ public static class Builder
             .SetResourceBuilder(resource)
             .AddSource(OTel.ActivitySource.Name)
             .AddHoneycomb(honeycombOptions)
-            .AddCommonInstrumentations()
-            .AddAspNetCoreInstrumentation()
+            //.AddCommonInstrumentations()
+            //.AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
-            .AddAspNetCoreInstrumentationWithBaggage()
+            //.AddAspNetCoreInstrumentationWithBaggage()
             .AddOtlpExporter(option =>
             {
                 option.Endpoint = new Uri("https://api.honeycomb.io/v1/traces");
