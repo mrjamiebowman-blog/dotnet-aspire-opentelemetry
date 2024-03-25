@@ -34,6 +34,7 @@ public static class Builder
 
         services.AddOpenTelemetry().WithTracing(builder => builder
             .SetResourceBuilder(resource)
+            .AddSource(OTel.ActivitySource.Name)
             .AddHoneycomb(honeycombOptions)
             //.AddCommonInstrumentations()
             .AddOtlpExporter(option =>

@@ -9,7 +9,7 @@ public static class OTel
 
     public static string ServiceVersion { get; set; } = "1.0.3";
 
-    public static readonly ActivitySource ConsumerService = new ActivitySource(OTel.ServiceName, OTel.ServiceVersion);
+    public static readonly ActivitySource ActivitySource = new ActivitySource(OTel.ServiceName, OTel.ServiceVersion);
 
     public static class MetricNames
     {
