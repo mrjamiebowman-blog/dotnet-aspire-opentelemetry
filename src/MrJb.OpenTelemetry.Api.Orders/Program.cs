@@ -21,7 +21,7 @@ builder.AddServiceDefaults();
 
 // configuration
 builder.Configuration
-        .AddJsonFile("customSettings.mrjb.json", optional: true, reloadOnChange: true);
+        .AddJsonFile("appsettings.mrjb.json", optional: true, reloadOnChange: true);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

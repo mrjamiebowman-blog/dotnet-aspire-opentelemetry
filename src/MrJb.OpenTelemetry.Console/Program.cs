@@ -25,7 +25,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
     {
         // configuration
         configuration
-            .AddJsonFile("customSettings.mrjb.json", optional: true, reloadOnChange: true);
+            .AddJsonFile("appsettings.mrjb.json", optional: true, reloadOnChange: true);
 
         var settings = configuration
             .AddUserSecrets(Assembly.GetExecutingAssembly(), true)
