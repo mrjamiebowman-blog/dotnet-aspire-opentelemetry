@@ -23,7 +23,7 @@ public static class Builder
     {
         // honeycomb
         var honeycombOptions = configuration.GetHoneycombOptions();
-        var honeyCombApiKey = configuration["Honeycomb:ApiKey"];
+        var honeyCombApiKey = configuration["HoneyComb:ApiKey"];
 
         // open telemetry
         var resource = ResourceBuilder

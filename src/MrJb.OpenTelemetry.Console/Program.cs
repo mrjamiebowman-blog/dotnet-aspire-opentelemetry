@@ -5,6 +5,7 @@ using MrJb.OpenTelemetry.Console;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
+using System.Configuration;
 using System.Reflection;
 
 Log.Logger = new LoggerConfiguration()
@@ -29,6 +30,15 @@ using IHost host = Host.CreateDefaultBuilder(args)
     {
         // configuration
         configuration
+            .Sources.Clear();
+
+        // env
+        var env = hostContext.HostingEnvironment;
+
+        configuration
+            .SetBasePath(env.ContentRootPath)
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
             .AddJsonFile("appsettings.mrjb.json", optional: true, reloadOnChange: true);
 
         var settings = configuration
