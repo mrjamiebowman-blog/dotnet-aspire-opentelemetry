@@ -18,7 +18,7 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 // starting identity server
-Log.Information("Starting Identity Server...");
+Log.Information("Starting Console App...");
 
 using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration((hostContext, configuration) =>

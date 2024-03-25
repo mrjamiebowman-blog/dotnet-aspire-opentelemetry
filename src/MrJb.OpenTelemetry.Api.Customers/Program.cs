@@ -15,7 +15,7 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 // starting identity server
-Log.Information("Starting Identity Server...");
+Log.Information("Starting API Customers...");
 
 builder.AddServiceDefaults();
 
