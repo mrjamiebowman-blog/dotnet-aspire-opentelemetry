@@ -1,6 +1,9 @@
+using MrJb.NetAspire.OpenTelemetry;
+using OpenTelemetry.Trace;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
+using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,7 +58,23 @@ var summaries = new[]
 
 app.MapPost("/orders", () =>
 {
-    return "";
+    using var activity = OTel.ActivitySource.StartActivity("Orders.GetOrders");
+
+    try
+    {
+        // metric
+        //OTel.Meters.AddGetOrder(1, TagList);
+
+        //var data = GetOrders();
+        return "";
+        
+    } catch (Exception ex)
+    {
+        //_logger.LogError(ex.Message);
+        activity?.SetStatus(System.Diagnostics.ActivityStatusCode.Error, ex.Message);
+        activity?.RecordException(ex);
+        throw new Exception("Unable to load orders.");
+    }
 }).WithName("GetOrders")
 .WithOpenApi();
 

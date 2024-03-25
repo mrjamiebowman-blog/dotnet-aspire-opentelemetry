@@ -15,23 +15,23 @@ public static class OTel
     {
         public const string BaseName = "mrjb.otel";
 
-        public const string GetOrders = $"{BaseName}.orders.get";
+        //public const string GetOrders = $"{BaseName}.console.get";
 
-        public const string SaveOrder = $"{BaseName}.orders.save";
+        //public const string SaveOrder = $"{BaseName}.console.save";
     }
 
     public static class Meters
     {
-        public static Meter LfcMeter = new Meter(OTel.ServiceName, OTel.ServiceVersion);
+        public static Meter Meter = new Meter(OTel.ServiceName, OTel.ServiceVersion);
 
-        private static Counter<int> GetOrders = LfcMeter.CreateCounter<int>(OTel.MetricNames.GetOrders, description: "Tracks when a order is retrieved.");
+        //private static Counter<int> GetOrders = Meter.CreateCounter<int>(OTel.MetricNames.GetOrders, description: "Tracks when a order is retrieved.");
 
-        private static Counter<int> SaveOrder = LfcMeter.CreateCounter<int>(OTel.MetricNames.SaveOrder, description: "Tracks when a order is saved.");
+        //private static Counter<int> SaveOrder = Meter.CreateCounter<int>(OTel.MetricNames.SaveOrder, description: "Tracks when a order is saved.");
 
-        public static void AddGetOrders(int count = 1) => GetOrders.Add(count);
-        public static void AddGetOrders(int count = 1, TagList tagList = new TagList()) => GetOrders.Add(count, tagList);
+        //public static void AddGetOrders(int count = 1) => GetOrders.Add(count);
+        //public static void AddGetOrders(int count = 1, TagList tagList = new TagList()) => GetOrders.Add(count, tagList);
 
-        public static void SaveOrders(int count = 1) => SaveOrder.Add(count);
-        public static void SaveOrders(int count = 1, TagList tagList = new TagList()) => SaveOrder.Add(count, tagList);
+        //public static void SaveOrders(int count = 1) => SaveOrder.Add(count);
+        //public static void SaveOrders(int count = 1, TagList tagList = new TagList()) => SaveOrder.Add(count, tagList);
     }
 }

@@ -1,3 +1,5 @@
+using MrJb.OpenTelemetry.Api.Customers;
+using OpenTelemetry.Trace;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -55,7 +57,24 @@ var summaries = new[]
 
 app.MapPost("/customers", () =>
 {
-    return "";
+    using var activity = OTel.ActivitySource.StartActivity("Customers.GetCustomers");
+
+    try
+    {
+        // metric
+        //OTel.Meters.AddGetOrder(1, TagList);
+
+        //var data = GetOrders();
+        return "";
+
+    }
+    catch (Exception ex)
+    {
+        //_logger.LogError(ex.Message);
+        activity?.SetStatus(System.Diagnostics.ActivityStatusCode.Error, ex.Message);
+        activity?.RecordException(ex);
+        throw new Exception("Unable to load customers.");
+    }
 }).WithName("GetCustomers")
 .WithOpenApi();
 
