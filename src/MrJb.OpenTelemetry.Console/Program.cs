@@ -21,16 +21,15 @@ Log.Logger = new LoggerConfiguration()
 Log.Information("Starting Console App...");
 
 using IHost host = Host.CreateDefaultBuilder(args)
+    .UseSerilog((ctx, lc) => lc
+        .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}")
+        .Enrich.FromLogContext()
+        .ReadFrom.Configuration(ctx.Configuration))
     .ConfigureAppConfiguration((hostContext, configuration) =>
     {
         // configuration
         configuration
             .AddJsonFile("appsettings.mrjb.json", optional: true, reloadOnChange: true);
-
-        //configuration.UseSerilog((ctx, lc) => lc
-        //    .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}")
-        //    .Enrich.FromLogContext()
-        //    .ReadFrom.Configuration(ctx.Configuration));
 
         var settings = configuration
             .AddUserSecrets(Assembly.GetExecutingAssembly(), true)
