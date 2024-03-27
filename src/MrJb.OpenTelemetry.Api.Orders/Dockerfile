@@ -13,7 +13,7 @@ ENV OTEL_SERVICE_NAME="mrjb.otel.api.orders"
 #ENV OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <secret-token>"
 ENV OTEL_METRICS_EXPORTER=otlp
 ENV OTEL_LOGS_EXPORTER=otlp
-#ENV OTEL_RESOURCE_ATTRIBUTES=service.name=cfs-awl-api-core,service.version=1.0.0.1,deployment.environment=development
+ENV OTEL_RESOURCE_ATTRIBUTES=service.name=mrjb.otel.api.orders,service.version=1.0.1,deployment.environment=development
 
 ENV OTEL_DOTNET_AUTO_HOME=/otel-ai
 
