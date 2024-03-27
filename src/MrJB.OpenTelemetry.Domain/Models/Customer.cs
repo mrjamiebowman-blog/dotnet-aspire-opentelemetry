@@ -10,6 +10,6 @@ public class Customer
 
     public string Email { get; set; }
 
-    public List<Order> Orders { get; set; }
+    public List<Order> Orders { get; set; } = new List<Order>();
 
 }

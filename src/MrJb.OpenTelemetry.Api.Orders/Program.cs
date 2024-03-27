@@ -1,4 +1,5 @@
 using MrJb.NetAspire.OpenTelemetry;
+using MrJB.OpenTelemetry.Domain.Models;
 using OpenTelemetry.Trace;
 using Serilog;
 using Serilog.Events;
@@ -20,7 +21,14 @@ Log.Logger = new LoggerConfiguration()
 // starting identity server
 Log.Information("Starting API Orders...");
 
+// otel service defaults
 builder.AddServiceDefaults();
+
+builder.Logging.AddOpenTelemetry(logging =>
+{
+    logging.IncludeFormattedMessage = true;
+    logging.IncludeScopes = true;
+});
 
 // configuration
 builder.Configuration
@@ -36,7 +44,7 @@ builder.Host.UseSerilog((ctx, lc) => lc
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.BootstrapApplication(builder.Configuration);
+builder.Services.BootstrapApplication(builder.Configuration, builder.Environment);
 
 var app = builder.Build();
 
@@ -51,23 +59,53 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+// serilog
+app.UseSerilogRequestLogging();
 
-app.MapPost("/orders", () =>
+app.MapPost("/orders", async (ILogger<Program> logger, CancellationToken cancellationToken) =>
 {
     using var activity = OTel.ActivitySource.StartActivity("Orders.GetOrders");
 
     try
     {
-        // metric
-        //OTel.Meters.AddGetOrder(1, TagList);
+        // do work...
+        Random rnd = new Random();
+        var delay = rnd.Next(100, 800);
+        await Task.Delay(delay);
 
-        //var data = GetOrders();
-        return "";
-        
+        var order = new Order();
+        order.CustomerId = Faker.RandomNumber.Next();
+        order.OrderId = Faker.RandomNumber.Next();
+        order.Total = Faker.RandomNumber.Next(100, 500);
+        order.SubTotal = (order.Total.Value * 0.8M);
+        order.Taxes = (order.Total - order.SubTotal);
+
+        // logger
+        logger.LogInformation("Retrieved Order: (#{OrderId})", order.OrderId);
+
+        // metric
+        var tagList = new TagList();
+        tagList.Add("order.id", order.OrderId);
+        tagList.Add("customer.id", order.CustomerId);
+
+        OTel.Meters.AddGetOrders(1, tagList);
+
+        // set tags
+        activity?.SetTag("order.id", order.OrderId);
+        activity?.SetTag("customer.id", order.CustomerId);
+
+        // event
+        var tags = new ActivityTagsCollection();
+        tags["order.id"] = order.OrderId;
+        tags["customer.id"] = order.CustomerId;
+
+        var e = new ActivityEvent("MrJB.OTel.Orders.API.Get", DateTimeOffset.Now, tags);
+        activity?.AddEvent(e);
+
+        activity?.SetStatus(ActivityStatusCode.Ok);
+
+        return order;
+
     } catch (Exception ex)
     {
         //_logger.LogError(ex.Message);
@@ -78,24 +116,4 @@ app.MapPost("/orders", () =>
 }).WithName("GetOrders")
 .WithOpenApi();
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
-
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
