@@ -61,6 +61,12 @@ public static class Builder
                            opt.Endpoint = new Uri("http://localhost:4317");
                        })
 
+                       /* otel collector */
+                       .AddOtlpExporter(opt =>
+                       {
+                           opt.Endpoint = new Uri("http://localhost:5317");
+                       })
+
                        /* honeycomb.io */
                        .AddOtlpExporter(option => {
                            option.Endpoint = new Uri("https://api.honeycomb.io/v1/traces");
@@ -82,6 +88,25 @@ public static class Builder
                 .AddHttpClientInstrumentation()
                 .AddPrometheusExporter()
                 .AddPrometheusHttpListener(options => options.UriPrefixes = new string[] { "http://localhost:9001/" })
+
+                /* jaeger */
+                .AddOtlpExporter(opt =>
+                {
+                    opt.Endpoint = new Uri("http://localhost:4317");
+                })
+
+                /* otel collector */
+                .AddOtlpExporter(opt =>
+                {
+                    opt.Endpoint = new Uri("http://localhost:5317");
+                })
+
+                /* honeycomb.io */
+                .AddOtlpExporter(option => {
+                    option.Endpoint = new Uri("https://api.honeycomb.io/v1/traces");
+                    option.Headers = $"x-honeycomb-team={honeyCombApiKey}";
+                    option.Protocol = OtlpExportProtocol.HttpProtobuf;
+                })
             );
         ;
 
