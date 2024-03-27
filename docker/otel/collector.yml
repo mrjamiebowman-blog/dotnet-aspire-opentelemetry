@@ -4,9 +4,20 @@ receivers:
       grpc:
       http:
 
+processors:
+  batch:
+
 exporters:
+  logging:
+    loglevel: debug
   otlp:
     endpoint: jaeger:4317
+    tls:
+      insecure: true
+  otlp/elastic:
+    endpoint: es01:9200
+    headers:
+      Authorization: "Bearer 0AF7B78C-484B-479D-8BB0-E78B19DCB412"    
     tls:
       insecure: true
   prometheus:
@@ -19,8 +30,10 @@ service:
         - otlp
       exporters:
         - otlp
+        - otlp/elastic
     metrics:
       receivers:
         - otlp
       exporters:
         - prometheus
+        - otlp/elastic

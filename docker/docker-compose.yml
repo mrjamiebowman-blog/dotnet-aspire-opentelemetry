@@ -230,7 +230,10 @@ services:
 
   # apm server
   apm-server:
-    image: docker.elastic.co/apm/apm-server:7.17.19
+    image: mrjamiebowman/elk-apm-server
+    build:
+      context: .
+      dockerfile: ./apm-server/Dockerfile
     depends_on:
       es01:
         condition: service_healthy
@@ -240,8 +243,6 @@ services:
     cap_drop: ["ALL"]
     ports:
     - 8200:8200
-    # networks:
-    # - mrjb-otel
     command: >
        apm-server -e
          -E apm-server.rum.enabled=true
@@ -250,10 +251,13 @@ services:
          -E apm-server.kibana.enabled=true
          -E apm-server.kibana.host=kibana:5601
          -E output.elasticsearch.hosts=["es01:9200"]
+    volumes:
+     - ./apm-server/apm-server.yml:/usr/share/apm-server/apm-server.yml:ro
     healthcheck:
       interval: 10s
       retries: 12
       test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:8200/
+# -E apm-server.auth.secret_token=0AF7B78C-484B-479D-8BB0-E78B19DCB412         
 
   # # fleet server
   # fleet-server:
