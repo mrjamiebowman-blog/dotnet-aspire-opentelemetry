@@ -46,8 +46,23 @@ public static class Builder
                        //.AddAspNetCoreInstrumentation()
                        .AddHttpClientInstrumentation()
                        //.AddAspNetCoreInstrumentationWithBaggage()
-                       .AddOtlpExporter(option =>
+
+                       /* zipkin */
+                       .AddZipkinExporter(o => o.HttpClientFactory = () =>
                        {
+                           HttpClient client = new HttpClient();
+                           client.DefaultRequestHeaders.Add("X-MyCustomHeader", "value");
+                           return client;
+                       })
+
+                       /* jaeger */
+                       .AddOtlpExporter(opt =>
+                       {
+                           opt.Endpoint = new Uri("http://localhost:4317");
+                       })
+
+                       /* honeycomb.io */
+                       .AddOtlpExporter(option => {
                            option.Endpoint = new Uri("https://api.honeycomb.io/v1/traces");
                            option.Headers = $"x-honeycomb-team={honeyCombApiKey}";
                            option.Protocol = OtlpExportProtocol.HttpProtobuf;
@@ -74,12 +89,12 @@ public static class Builder
         var otlpEndpoint = configuration.GetValue<string>("DOCKER_OTEL_EXPORTER_OTLP_ENDPOINT");
         var useOtlpExporter = !String.IsNullOrWhiteSpace(otlpEndpoint);
 
-        //if (useOtlpExporter)
-        //{
-        //    services.Configure<OpenTelemetryLoggerOptions>(logging => logging.AddOtlpExporter(o => o.Endpoint = new Uri(otlpEndpoint)));
-        //    services.ConfigureOpenTelemetryMeterProvider(metrics => metrics.AddOtlpExporter(o => o.Endpoint = new Uri(otlpEndpoint)));
-        //    services.ConfigureOpenTelemetryTracerProvider(tracing => tracing.AddOtlpExporter(o => o.Endpoint = new Uri(otlpEndpoint)));
-        //}
+        if (useOtlpExporter)
+        {
+            services.Configure<OpenTelemetryLoggerOptions>(logging => logging.AddOtlpExporter(o => o.Endpoint = new Uri(otlpEndpoint)));
+            services.ConfigureOpenTelemetryMeterProvider(metrics => metrics.AddOtlpExporter(o => o.Endpoint = new Uri(otlpEndpoint)));
+            services.ConfigureOpenTelemetryTracerProvider(tracing => tracing.AddOtlpExporter(o => o.Endpoint = new Uri(otlpEndpoint)));
+        }
 
         // register tracer so it can be injected into other components(eg Controllers)
         services.AddSingleton(TracerProvider.Default.GetTracer(honeycombOptions.ServiceName));

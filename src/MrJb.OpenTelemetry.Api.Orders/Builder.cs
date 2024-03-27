@@ -45,6 +45,22 @@ public static class Builder
                        //.AddAspNetCoreInstrumentation()
                        .AddHttpClientInstrumentation()
                        //.AddAspNetCoreInstrumentationWithBaggage()
+
+                       /* zipkin */
+                       .AddZipkinExporter(o => o.HttpClientFactory = () =>
+                       {
+                           HttpClient client = new HttpClient();
+                           client.DefaultRequestHeaders.Add("X-MyCustomHeader", "value");
+                           return client;
+                       })
+
+                       /* jaeger */
+                       .AddOtlpExporter(opt =>
+                       {
+                           opt.Endpoint = new Uri("http://localhost:4317");
+                       })
+
+                       /* honeycomb.io */
                        .AddOtlpExporter(option => {
                             option.Endpoint = new Uri("https://api.honeycomb.io/v1/traces");
                             option.Headers = $"x-honeycomb-team={honeyCombApiKey}";
