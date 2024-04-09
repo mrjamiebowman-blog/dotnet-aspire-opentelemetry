@@ -1,5 +1,7 @@
 using MrJb.OpenTelemetry.Api.Customers;
+using MrJB.OpenTelemetry.Domain.Models;
 using OpenTelemetry.Trace;
+using RestSharp;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -20,7 +22,14 @@ Log.Logger = new LoggerConfiguration()
 // starting identity server
 Log.Information("Starting API Customers...");
 
+// otel service defaults
 builder.AddServiceDefaults();
+
+builder.Logging.AddOpenTelemetry(logging =>
+{
+    logging.IncludeFormattedMessage = true;
+    logging.IncludeScopes = true;
+});
 
 // configuration
 builder.Configuration
@@ -36,7 +45,7 @@ builder.Host.UseSerilog((ctx, lc) => lc
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.BootstrapApplication(builder.Configuration);
+builder.Services.BootstrapApplication(builder.Configuration, builder.Environment);
 
 var app = builder.Build();
 
@@ -51,41 +60,66 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+// serilog
+app.UseSerilogRequestLogging();
 
-app.MapPost("/customers", () =>
+app.MapPost("/customers", async (ILogger<Program> logger, CancellationToken cancellationToken) =>
 {
     using var activity = OTel.ActivitySource.StartActivity("Customers.GetCustomers");
 
     try
     {
+        // do work...
+        Random rnd = new Random();
+        var delay = rnd.Next(100, 800);
+        await Task.Delay(delay);
+
+        var customer = new Customer();
+        customer.CustomerId = Faker.RandomNumber.Next();
+        customer.FirstName = Faker.Name.First();
+        customer.LastName = Faker.Name.Last();
+        customer.Email = Faker.Internet.Email();
+
+        // logger
+        logger.LogInformation("Retrieved Customer: ({FirstName} {LastName})", customer.FirstName, customer.LastName);
+
+        try
+        {
+            // get orders (http://localhost:5179/swagger)
+            var options = new RestClientOptions("http://localhost:5179/");
+            var client = new RestClient(options);
+            var request = new RestRequest("orders");
+
+            // post request
+            var order = await client.PostAsync<Order>(request, cancellationToken);
+
+            customer.Orders.Add(order);
+        } catch (Exception ex) {
+            throw ex;
+        }
+
         // metric
         var tagList = new TagList();
-        tagList.Add("customer.id", "");
-        tagList.Add("customer.email", "");
+        tagList.Add("customer.id", customer.CustomerId);
+        tagList.Add("customer.email", customer.Email);
 
-        //OTel.Meters.AddGetOrder(1, TagList);
+        OTel.Meters.AddGetCustomer(1, tagList);
 
         // set tags
-        activity?.SetTag("customer.id", "");
-        activity?.SetTag("customer.email", "");
+        activity?.SetTag("customer.id", customer.CustomerId);
+        activity?.SetTag("customer.email", customer.Email);
 
         // event
         var tags = new ActivityTagsCollection();
-        tags["customer.id"] = "1234";
+        tags["customer.id"] = customer.CustomerId;
+        tags["customer.email"] = customer.Email;
 
         var e = new ActivityEvent("MrJB.OTel.Customers.API.Get", DateTimeOffset.Now, tags);
         activity?.AddEvent(e);
 
-        //var data = GetOrders();
-
         activity?.SetStatus(ActivityStatusCode.Ok);
 
-        return "";
-
+        return customer;
     }
     catch (Exception ex)
     {
@@ -97,24 +131,4 @@ app.MapPost("/customers", () =>
 }).WithName("GetCustomers")
 .WithOpenApi();
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
-
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

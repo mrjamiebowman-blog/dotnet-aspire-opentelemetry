@@ -1,0 +1,39 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+processors:
+  batch:
+
+exporters:
+  logging:
+    loglevel: debug
+  otlp:
+    endpoint: jaeger:4317
+    tls:
+      insecure: true
+  otlp/elastic:
+    endpoint: es01:9200
+    headers:
+      Authorization: "Bearer supersecrettoken"    
+    tls:
+      insecure: true
+  prometheus:
+    endpoint: 0.0.0.0:8889 # This endpoint is scraped by Prometheus
+
+service:
+  pipelines:
+    traces:
+      receivers:
+        - otlp
+      exporters:
+        - otlp
+        - otlp/elastic
+    metrics:
+      receivers:
+        - otlp
+      exporters:
+        - prometheus
+        - otlp/elastic

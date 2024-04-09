@@ -228,46 +228,77 @@ services:
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
       - ELASTIC_HOSTS=https://es01:9200
 
-  # fleet server
-  fleet-server:
+  # apm server
+  apm-server:
+    image: mrjamiebowman/elk-apm-server
+    build:
+      context: .
+      dockerfile: ./apm-server/Dockerfile
     depends_on:
-      kibana:
-        condition: service_healthy
       es01:
         condition: service_healthy
-    image: docker.elastic.co/beats/elastic-agent:${STACK_VERSION}
-    volumes:
-      - certs:/certs
-      - fleetserverdata:/usr/share/elastic-agent
-      - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "/sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro"
-      - "/proc:/hostfs/proc:ro"
-      - "/:/hostfs:ro"
+      kibana:
+        condition: service_healthy
+    cap_add: ["CHOWN", "DAC_OVERRIDE", "SETGID", "SETUID"]
+    cap_drop: ["ALL"]
     ports:
-      - ${FLEET_PORT}:8220
-      - ${APMSERVER_PORT}:8200
-    user: root
-    environment:
-      - SSL_CERTIFICATE_AUTHORITIES=/certs/ca/ca.crt
-      - CERTIFICATE_AUTHORITIES=/certs/ca/ca.crt
-      - FLEET_CA=/certs/ca/ca.crt
-      - FLEET_ENROLL=1
-      - FLEET_INSECURE=true
-      - FLEET_SERVER_ELASTICSEARCH_CA=/certs/ca/ca.crt
-      - FLEET_SERVER_ELASTICSEARCH_HOST=https://es01:9200
-      - FLEET_SERVER_ELASTICSEARCH_INSECURE=true
-      - FLEET_SERVER_ENABLE=1
-      - FLEET_SERVER_CERT=/certs/fleet-server/fleet-server.crt
-      - FLEET_SERVER_CERT_KEY=/certs/fleet-server/fleet-server.key
-      - FLEET_SERVER_INSECURE_HTTP=true
-      - FLEET_SERVER_POLICY_ID=fleet-server-policy
-      - FLEET_URL=https://fleet-server:8220
-      - KIBANA_FLEET_CA=/certs/ca/ca.crt
-      - KIBANA_FLEET_SETUP=1
-      - KIBANA_FLEET_USERNAME=elastic
-      - KIBANA_FLEET_PASSWORD=${ELASTIC_PASSWORD}
-      - KIBANA_HOST=https://kibana:5601
+    - 8200:8200
+    command: >
+       apm-server -e
+         -E apm-server.rum.enabled=true
+         -E setup.kibana.host=kibana:5601
+         -E setup.template.settings.index.number_of_replicas=0
+         -E apm-server.kibana.enabled=true
+         -E apm-server.kibana.host=kibana:5601
+         -E output.elasticsearch.hosts=["es01:9200"]
+    volumes:
+     - ./apm-server/apm-server.yml:/usr/share/apm-server/apm-server.yml:ro
+    healthcheck:
+      interval: 10s
+      retries: 12
+      test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:8200/
+# -E apm-server.auth.secret_token=0AF7B78C-484B-479D-8BB0-E78B19DCB412         
+
+  # # fleet server
+  # fleet-server:
+  #   depends_on:
+  #     kibana:
+  #       condition: service_healthy
+  #     es01:
+  #       condition: service_healthy
+  #   image: docker.elastic.co/beats/elastic-agent:${STACK_VERSION}
+  #   volumes:
+  #     - certs:/certs
+  #     - fleetserverdata:/usr/share/elastic-agent
+  #     - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
+  #     - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  #     - "/sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro"
+  #     - "/proc:/hostfs/proc:ro"
+  #     - "/:/hostfs:ro"
+  #   ports:
+  #     - ${FLEET_PORT}:8220
+  #     - ${APMSERVER_PORT}:8200
+  #   user: root
+  #   environment:
+  #     - SSL_CERTIFICATE_AUTHORITIES=/certs/ca/ca.crt
+  #     - CERTIFICATE_AUTHORITIES=/certs/ca/ca.crt
+  #     - FLEET_CA=/certs/ca/ca.crt
+  #     - FLEET_ENROLL=1
+  #     - FLEET_INSECURE=true
+  #     - FLEET_SERVER_ELASTICSEARCH_CA=/certs/ca/ca.crt
+  #     - FLEET_SERVER_ELASTICSEARCH_HOST=http://es01:9200
+  #     - FLEET_SERVER_ELASTICSEARCH_INSECURE=true
+  #     - FLEET_SERVER_ENABLE=1
+  #     - FLEET_SERVER_CERT=/certs/fleet-server/fleet-server.crt
+  #     - FLEET_SERVER_CERT_KEY=/certs/fleet-server/fleet-server.key
+  #     - FLEET_SERVER_INSECURE_HTTP=true
+  #     - FLEET_SERVER_POLICY_ID=fleet-server-policy
+  #     - FLEET_URL=http://fleet-server:8220
+  #     - KIBANA_FLEET_CA=/certs/ca/ca.crt
+  #     - KIBANA_FLEET_SETUP=1
+  #     - KIBANA_FLEET_USERNAME=elastic
+  #     - KIBANA_FLEET_PASSWORD=${ELASTIC_PASSWORD}
+  #     - KIBANA_HOST=http://kibana:5601
 
   # prometheus
   prometheus:
@@ -299,10 +330,11 @@ services:
 
   # jaeger
   jaeger:
-    image: jaegertracing/all-in-one:latest
+    image: jaegertracing/opentelemetry-all-in-one:latest
     ports:
-      - "6831:6831/udp"
-      - "16686:16686"
+      - 13133:13133 
+      - 16686:16686 
+      - 4317:4317 
 
   # zipkin (http://localhost:9411/zipkin/)
   zipkin:
@@ -313,3 +345,22 @@ services:
       - ZIPKIN_BASE_URL=http://localhost:9411
     ports:
       - 9411:9411
+
+  # otel collector
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: otel-collector
+    volumes:
+      - ./otel/collector.yml:/etc/otel/config.yaml
+    command: --config /etc/otel/config.yaml
+    ports:
+      - 1888:1888 # pprof extension
+      - 8888:8888 # Prometheus metrics exposed by the Collector
+      - 8889:8889 # Prometheus exporter metrics
+      # - 13133:13133 # health_check extension
+      - 55679:55679 # zpages extension    
+      - 5317:4317 # OTLP gRPC receiver
+      - 5318:4318 # OTLP http receiver      
+    depends_on:
+      - jaeger
+      - prometheus  
