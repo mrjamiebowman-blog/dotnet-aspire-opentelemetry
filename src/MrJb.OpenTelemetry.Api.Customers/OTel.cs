@@ -1,15 +1,30 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.Metrics;
+using System.Reflection;
 
 namespace MrJb.OpenTelemetry.Api.Customers;
 
-public static class OTel
+internal sealed class OTel
 {
-    public static string ServiceName { get; set; } = "MrJb.OpenTelemetry.Api.Customers";
+    /// <summary>
+    /// The assembly name.
+    /// </summary>
+    internal static readonly AssemblyName AssemblyName = typeof(OTel).Assembly.GetName();
 
-    public static string ServiceVersion { get; set; } = "1.0.3";
+    /// <summary>
+    /// The activity source name.
+    /// </summary>
+    internal static readonly string ActivitySourceName = AssemblyName.Name ?? "MrJb.OpenTelemetry.Api.Customers";
 
-    public static readonly ActivitySource ActivitySource = new ActivitySource(OTel.ServiceName, OTel.ServiceVersion);
+    /// <summary>
+    /// The activity source.
+    /// </summary>
+    internal static readonly ActivitySource ActivitySource = new ActivitySource(ActivitySourceName, GetVersion<OTel>());
+
+    internal static string GetVersion<T>()
+    {
+        return typeof(T).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion.Split('+')[0];
+    }
 
     public static class MetricNames
     {
@@ -22,7 +37,7 @@ public static class OTel
 
     public static class Meters
     {
-        public static Meter Meter = new Meter(OTel.ServiceName, OTel.ServiceVersion);
+        public static Meter Meter = new Meter(ActivitySourceName, GetVersion<OTel>());
 
         private static Counter<int> GetCustomer = Meter.CreateCounter<int>(OTel.MetricNames.GetOrders, description: "Tracks when a customer is retrieved.");
 
