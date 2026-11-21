@@ -14,7 +14,7 @@ internal sealed class OTel
     /// <summary>
     /// The activity source name.
     /// </summary>
-    internal static readonly string ActivitySourceName = AssemblyName.Name ?? "MrJb.OpenTelemetry.Api.Customers";
+    internal static readonly string ActivitySourceName = "MrJb.OpenTelemetry.Api.Customers";
 
     /// <summary>
     /// The activity source.

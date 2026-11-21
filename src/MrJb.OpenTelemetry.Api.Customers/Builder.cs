@@ -26,7 +26,7 @@ public static class Builder
         // open telemetry
         var resource = ResourceBuilder
             .CreateDefault()
-            .AddService(OTel.ServiceName)
+            .AddService(OTel.ActivitySourceName)
             .AddTelemetrySdk()
             .AddEnvironmentVariableDetector();
 
