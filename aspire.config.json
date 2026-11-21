@@ -1,5 +1,5 @@
 {
   "appHost": {
-    "path": "aspire/MrJb.NetAspire.Host/MrJb.NetAspire.Host.csproj"
+    "path": "aspire/MrJB.OTel.AppHost/MrJB.OTel.AppHost.csproj"
   }
 }

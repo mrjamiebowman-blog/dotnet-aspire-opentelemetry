@@ -1,0 +1,28 @@
+<Solution>
+  <Folder Name="/aspire/">
+    <Project Path="aspire/MrJB.OTel.AppHost/MrJB.OTel.AppHost.csproj" Id="098e29df-44ef-48d6-808e-b58e0b57c13b" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/MrJB.OTel.Api.Customers/MrJB.OTel.Api.Customers.csproj" />
+    <Project Path="src/MrJB.OTel.Api.Orders/MrJB.OTel.Api.Orders.csproj" />
+    <Project Path="src/MrJB.OTel.Console/MrJB.OTel.Console.csproj" />
+  </Folder>
+  <Folder Name="/src/libs/">
+    <Project Path="aspire/MrJB.OTel.ServiceDefaults/MrJB.OTel.ServiceDefaults.csproj" />
+    <Project Path="src/MrJB.OTel.Domain/MrJB.OTel.Domain.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/MrJB.OTel.Tests.Developer/MrJB.OTel.Tests.Developer.csproj" />
+  </Folder>
+  <Folder Name="/_Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="builder-docker.ps1" />
+    <File Path="docker/docker-compose.yml" />
+    <File Path="docker/elk/filebeat.yml" />
+    <File Path="docker/elk/logstash.conf" />
+    <File Path="docker/elk/metricbeat.yml" />
+    <File Path="down.ps1" />
+    <File Path="README.md" />
+    <File Path="up.ps1" />
+  </Folder>
+</Solution>

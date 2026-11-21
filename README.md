@@ -1,7 +1,7 @@
 # .NET: Aspire with OpenTelemetry
 .NET Aspire is a major game changer coming to .NET.
 
-## Install Latest .NET 9
+## Install Latest .NET 11
 
 
 ### Install Aspire Dotnet Workload

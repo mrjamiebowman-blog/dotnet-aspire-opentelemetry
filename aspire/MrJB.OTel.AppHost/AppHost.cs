@@ -12,15 +12,15 @@ var jaeger = builder.AddContainer("jaeger", "jaegertracing/jaeger", "2.5.0")
     .WithHttpEndpoint(port: 4318, targetPort: 4318, name: "otlp-http");
 
 // services
-builder.AddDotnetProject("console", "../../src/MrJb.OpenTelemetry.Console/MrJb.OpenTelemetry.Console.csproj")
+builder.AddDotnetProject("console", "../../src/MrJB.OTel.Console/MrJB.OTel.Console.csproj")
     .WaitFor(jaeger);
 
-builder.AddDotnetProject("api-customers", "../../src/MrJb.OpenTelemetry.Api.Customers/MrJb.OpenTelemetry.Api.Customers.csproj")
+builder.AddDotnetProject("api-customers", "../../src/MrJB.OTel.Api.Customers/MrJB.OTel.Api.Customers.csproj")
     .WithReference(rabbitmq)
     .WaitFor(rabbitmq)
     .WaitFor(jaeger);
 
-builder.AddDotnetProject("api-orders", "../../src/MrJb.OpenTelemetry.Api.Orders/MrJb.OpenTelemetry.Api.Orders.csproj")
+builder.AddDotnetProject("api-orders", "../../src/MrJB.OTel.Api.Orders/MrJB.OTel.Api.Orders.csproj")
     .WithReference(rabbitmq)
     .WaitFor(rabbitmq)
     .WaitFor(jaeger);

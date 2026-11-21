@@ -1,0 +1,6 @@
+@MrJB.OTel.Api.Orders_HostAddress = http://localhost:5179
+
+GET {{MrJB.OTel.Api.Orders_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
