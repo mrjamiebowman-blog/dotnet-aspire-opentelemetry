@@ -1,8 +1,10 @@
 # .NET: Aspire with OpenTelemetry
 .NET Aspire is a major game changer coming to .NET.
 
-## Install Latest .NET 11
+## Distributed Tracing
+* Spans
+* Track Slow Calls
 
+A single request to the BFF (`GET api/Customers/email`) traced across every service in the Aspire dashboard. The BFF calls the Customers and Products APIs in parallel, and Customers in turn calls Orders, which is the slow call in this trace.
 
-### Install Aspire Dotnet Workload
-[https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/setup-tooling?tabs=visual-studio](https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/setup-tooling?tabs=visual-studio)   
+![Aspire dashboard showing a distributed trace from api-bff through api-customers, api-orders and api-products](.docs/aspire-otel-distributed-tracing.png)
