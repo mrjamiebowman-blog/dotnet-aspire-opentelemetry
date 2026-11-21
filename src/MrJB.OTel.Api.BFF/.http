@@ -1,6 +1,7 @@
 @HostAddress = http://localhost:5080
 
-GET {{HostAddress}}/customers
+# aggregates a customer (Customers API) with featured products (Products API)
+GET {{HostAddress}}/api/customers/email
 Accept: application/json
 
 ###

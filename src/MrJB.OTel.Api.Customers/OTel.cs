@@ -30,18 +30,18 @@ internal sealed class OTel
     {
         public const string BaseName = "mrjb.otel";
 
-        public const string GetOrders = $"{BaseName}.customers.get";
+        public const string GetCustomer = $"{BaseName}.customers.get";
 
-        public const string SaveOrder = $"{BaseName}.customers.save";
+        public const string SaveCustomer = $"{BaseName}.customers.save";
     }
 
     public static class Meters
     {
         public static Meter Meter = new Meter(ActivitySourceName, GetVersion<OTel>());
 
-        private static Counter<int> GetCustomer = Meter.CreateCounter<int>(OTel.MetricNames.GetOrders, description: "Tracks when a customer is retrieved.");
+        private static Counter<int> GetCustomer = Meter.CreateCounter<int>(OTel.MetricNames.GetCustomer, description: "Tracks when a customer is retrieved.");
 
-        private static Counter<int> SaveCustomer = Meter.CreateCounter<int>(OTel.MetricNames.SaveOrder, description: "Tracks when a customer is saved.");
+        private static Counter<int> SaveCustomer = Meter.CreateCounter<int>(OTel.MetricNames.SaveCustomer, description: "Tracks when a customer is saved.");
 
         public static void AddGetCustomer(int count = 1) => GetCustomer.Add(count);
         public static void AddGetCustomer(int count = 1, TagList tagList = new TagList()) => GetCustomer.Add(count, tagList);

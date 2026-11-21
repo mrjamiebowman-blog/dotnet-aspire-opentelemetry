@@ -11,7 +11,9 @@ builder.AddServiceDefaults();
 
 // custom activity source + meter for this service
 builder.Services.ConfigureOpenTelemetryTracerProvider(tracing => tracing.AddSource(OTel.ActivitySourceName));
-builder.Services.ConfigureOpenTelemetryMeterProvider(metrics => metrics.AddMeter(OTel.ActivitySourceName));
+builder.Services.ConfigureOpenTelemetryMeterProvider(metrics => metrics.AddMeter(OTel.Meters.Meter.Name));
+
+builder.Services.AddControllers();
 
 // OpenAPI document (/openapi/v1.json) rendered by Scalar (/scalar)
 builder.Services.AddOpenApi();
@@ -28,14 +30,6 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
-var featuredRequests = OTel.Meter.CreateCounter<int>("mrjb.otel.products.featured.get", description: "Tracks when featured products are retrieved.");
-
-app.MapGet("/products/featured", async (IProductsService products, CancellationToken cancellationToken) =>
-{
-    var featured = await products.GetFeaturedProductsAsync(cancellationToken);
-    featuredRequests.Add(1);
-    return TypedResults.Ok(featured);
-})
-.WithName("GetFeaturedProducts");
+app.MapControllers();
 
 app.Run();

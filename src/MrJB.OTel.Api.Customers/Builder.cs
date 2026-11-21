@@ -1,4 +1,5 @@
 ﻿using MrJB.OTel.Api.Customers;
+using MrJB.OTel.Api.Customers.Services;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
@@ -13,6 +14,9 @@ public static class Builder
     {
         // open telemetry
         services.ConfigureOpenTelemetry(configuration, environment);
+
+        // services
+        services.AddScoped<ICustomersService, CustomersService>();
 
         return services;
     }

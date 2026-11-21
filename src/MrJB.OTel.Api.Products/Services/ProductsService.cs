@@ -16,7 +16,7 @@ public class ProductsService(ILogger<ProductsService> logger) : IProductsService
 
     public async Task<IReadOnlyList<Product>> GetFeaturedProductsAsync(CancellationToken cancellationToken = default)
     {
-        using var activity = OTel.ActivitySource.StartActivity("ProductsService.GetFeaturedProducts");
+        using var activity = OTel.ActivitySource.StartActivity($"{nameof(ProductsService)}.{nameof(GetFeaturedProductsAsync)}");
 
         // simulate a catalog lookup so the span has some duration
         await Task.Delay(Random.Shared.Next(50, 300), cancellationToken);

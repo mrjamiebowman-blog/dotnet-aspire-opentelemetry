@@ -25,12 +25,14 @@ builder.AddDotnetProject("api-orders", "../../src/MrJB.OTel.Api.Orders/MrJB.OTel
     .WaitFor(rabbitmq)
     .WaitFor(jaeger);
 
-builder.AddDotnetProject("api-products", "../../src/MrJB.OTel.Api.Products/MrJB.OTel.Api.Products.csproj")
+var products = builder.AddDotnetProject("api-products", "../../src/MrJB.OTel.Api.Products/MrJB.OTel.Api.Products.csproj")
     .WaitFor(jaeger);
 
-// bff -> customers (resolved via service discovery as http://api-customers)
+// bff aggregates customers + products (resolved via service discovery as http://api-customers / http://api-products)
 builder.AddDotnetProject("api-bff", "../../src/MrJB.OTel.Api.BFF/MrJB.OTel.Api.BFF.csproj")
     .WithReference(customers)
-    .WaitFor(customers);
+    .WithReference(products)
+    .WaitFor(customers)
+    .WaitFor(products);
 
 builder.Build().Run();

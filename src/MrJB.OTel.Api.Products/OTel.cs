@@ -13,5 +13,20 @@ internal static class OTel
 
     internal static readonly ActivitySource ActivitySource = new(ActivitySourceName, Version);
 
-    internal static readonly Meter Meter = new(ActivitySourceName, Version);
+    public static class MetricNames
+    {
+        public const string BaseName = "mrjb.otel";
+
+        public const string GetFeaturedProducts = $"{BaseName}.products.featured.get";
+    }
+
+    public static class Meters
+    {
+        public static readonly Meter Meter = new(ActivitySourceName, Version);
+
+        private static readonly Counter<int> GetFeaturedProducts = Meter.CreateCounter<int>(MetricNames.GetFeaturedProducts, description: "Tracks when featured products are retrieved.");
+
+        public static void AddGetFeaturedProducts(int count = 1) => GetFeaturedProducts.Add(count);
+        public static void AddGetFeaturedProducts(int count, TagList tagList) => GetFeaturedProducts.Add(count, tagList);
+    }
 }

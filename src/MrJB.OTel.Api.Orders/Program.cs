@@ -1,11 +1,8 @@
 using MrJB.OTel.Api.Orders;
-using MrJB.OTel.Domain.Models;
-using OpenTelemetry.Trace;
 using Scalar.AspNetCore;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
-using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +38,8 @@ builder.Host.UseSerilog((ctx, lc) => lc
     .ReadFrom.Configuration(ctx.Configuration));
 
 // Add services to the container.
+builder.Services.AddControllers();
+
 // OpenAPI document (/openapi/v1.json) rendered by Scalar (/scalar)
 builder.Services.AddOpenApi();
 
@@ -62,57 +61,6 @@ app.UseHttpsRedirection();
 // serilog
 app.UseSerilogRequestLogging();
 
-app.MapPost("/orders", async (ILogger<Program> logger, CancellationToken cancellationToken) =>
-{
-    using var activity = OTel.ActivitySource.StartActivity("Orders.GetOrders");
-
-    try
-    {
-        // do work...
-        Random rnd = new Random();
-        var delay = rnd.Next(100, 800);
-        await Task.Delay(delay);
-
-        var order = new Order();
-        order.CustomerId = Faker.RandomNumber.Next();
-        order.OrderId = Faker.RandomNumber.Next();
-        order.Total = Faker.RandomNumber.Next(100, 500);
-        order.SubTotal = (order.Total.Value * 0.8M);
-        order.Taxes = (order.Total - order.SubTotal);
-
-        // logger
-        logger.LogInformation("Retrieved Order: (#{OrderId})", order.OrderId);
-
-        // metric
-        var tagList = new TagList();
-        tagList.Add("order.id", order.OrderId);
-        tagList.Add("customer.id", order.CustomerId);
-
-        OTel.Meters.AddGetOrders(1, tagList);
-
-        // set tags
-        activity?.SetTag("order.id", order.OrderId);
-        activity?.SetTag("customer.id", order.CustomerId);
-
-        // event
-        var tags = new ActivityTagsCollection();
-        tags["order.id"] = order.OrderId;
-        tags["customer.id"] = order.CustomerId;
-
-        var e = new ActivityEvent("MrJB.OTel.Orders.API.Get", DateTimeOffset.Now, tags);
-        activity?.AddEvent(e);
-
-        activity?.SetStatus(ActivityStatusCode.Ok);
-
-        return order;
-
-    } catch (Exception ex)
-    {
-        //_logger.LogError(ex.Message);
-        activity?.SetStatus(System.Diagnostics.ActivityStatusCode.Error, ex.Message);
-        activity?.RecordException(ex);
-        throw new Exception("Unable to load orders.");
-    }
-}).WithName("GetOrders");
+app.MapControllers();
 
 app.Run();
