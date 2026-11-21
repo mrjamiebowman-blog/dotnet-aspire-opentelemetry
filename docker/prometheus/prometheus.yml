@@ -44,6 +44,11 @@ scrape_configs:
     static_configs:
       - targets: ['host.docker.internal:9001']
 
+  - job_name: 'api_orders'
+
+    static_configs:
+      - targets: ['host.docker.internal:9003']
+
   - job_name: 'console'
 
     static_configs:

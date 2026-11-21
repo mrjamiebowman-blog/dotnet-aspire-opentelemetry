@@ -15,7 +15,7 @@ var jaeger = builder.AddContainer("jaeger", "jaegertracing/jaeger", "2.5.0")
 builder.AddDotnetProject("console", "../../src/MrJB.OTel.Console/MrJB.OTel.Console.csproj")
     .WaitFor(jaeger);
 
-builder.AddDotnetProject("api-customers", "../../src/MrJB.OTel.Api.Customers/MrJB.OTel.Api.Customers.csproj")
+var customers = builder.AddDotnetProject("api-customers", "../../src/MrJB.OTel.Api.Customers/MrJB.OTel.Api.Customers.csproj")
     .WithReference(rabbitmq)
     .WaitFor(rabbitmq)
     .WaitFor(jaeger);
@@ -24,5 +24,13 @@ builder.AddDotnetProject("api-orders", "../../src/MrJB.OTel.Api.Orders/MrJB.OTel
     .WithReference(rabbitmq)
     .WaitFor(rabbitmq)
     .WaitFor(jaeger);
+
+builder.AddDotnetProject("api-products", "../../src/MrJB.OTel.Api.Products/MrJB.OTel.Api.Products.csproj")
+    .WaitFor(jaeger);
+
+// bff -> customers (resolved via service discovery as http://api-customers)
+builder.AddDotnetProject("api-bff", "../../src/MrJB.OTel.Api.BFF/MrJB.OTel.Api.BFF.csproj")
+    .WithReference(customers)
+    .WaitFor(customers);
 
 builder.Build().Run();

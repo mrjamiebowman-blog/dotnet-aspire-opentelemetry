@@ -15,8 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\MrJB.OTel.Api.BFF\MrJB.OTel.Api.BFF.csproj" />
     <ProjectReference Include="..\..\src\MrJB.OTel.Api.Customers\MrJB.OTel.Api.Customers.csproj" />
     <ProjectReference Include="..\..\src\MrJB.OTel.Api.Orders\MrJB.OTel.Api.Orders.csproj" />
+    <ProjectReference Include="..\..\src\MrJB.OTel.Api.Products\MrJB.OTel.Api.Products.csproj" />
   </ItemGroup>
 
 </Project>

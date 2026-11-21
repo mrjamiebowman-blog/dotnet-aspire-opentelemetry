@@ -80,7 +80,7 @@ public static class Builder
                 .AddAspNetCoreInstrumentation()
                 .AddHttpClientInstrumentation()
                 .AddPrometheusExporter()
-                .AddPrometheusHttpListener(options => { options.Host = "localhost"; options.Port = 9001; })
+                .AddPrometheusHttpListener(options => { options.Host = "localhost"; options.Port = 9003; })
             /* elk */
             //.AddOtlpExporter(opt =>
             //{

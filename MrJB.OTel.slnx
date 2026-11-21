@@ -3,8 +3,10 @@
     <Project Path="aspire/MrJB.OTel.AppHost/MrJB.OTel.AppHost.csproj" Id="098e29df-44ef-48d6-808e-b58e0b57c13b" />
   </Folder>
   <Folder Name="/src/">
+    <Project Path="src/MrJB.OTel.Api.BFF/MrJB.OTel.Api.BFF.csproj" />
     <Project Path="src/MrJB.OTel.Api.Customers/MrJB.OTel.Api.Customers.csproj" />
     <Project Path="src/MrJB.OTel.Api.Orders/MrJB.OTel.Api.Orders.csproj" />
+    <Project Path="src/MrJB.OTel.Api.Products/MrJB.OTel.Api.Products.csproj" />
     <Project Path="src/MrJB.OTel.Console/MrJB.OTel.Console.csproj" />
   </Folder>
   <Folder Name="/src/libs/">
