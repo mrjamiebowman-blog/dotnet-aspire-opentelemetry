@@ -1,0 +1,30 @@
+<Solution>
+  <Folder Name="/aspire/">
+    <Project Path="aspire/MrJb.NetAspire.Host/MrJb.NetAspire.Host.csproj" />
+    <Project Path="aspire/MrJb.NetAspire.ServiceDefaults/MrJb.NetAspire.ServiceDefaults.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/MrJB.OpenTelemetry.Domain/MrJB.OpenTelemetry.Domain.csproj" />
+  </Folder>
+  <Folder Name="/src/api/">
+    <Project Path="src/MrJb.OpenTelemetry.Api.Customers/MrJb.OpenTelemetry.Api.Customers.csproj" />
+    <Project Path="src/MrJb.OpenTelemetry.Api.Orders/MrJb.OpenTelemetry.Api.Orders.csproj" />
+  </Folder>
+  <Folder Name="/src/console/">
+    <Project Path="src/MrJb.OpenTelemetry.Console/MrJb.OpenTelemetry.Console.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/MrJb.OpenTelemetry.Tests.Developer/MrJb.OpenTelemetry.Tests.Developer.csproj" />
+  </Folder>
+  <Folder Name="/_Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="builder-docker.ps1" />
+    <File Path="docker/docker-compose.yml" />
+    <File Path="docker/filebeat.yml" />
+    <File Path="docker/logstash.conf" />
+    <File Path="docker/metricbeat.yml" />
+    <File Path="down.ps1" />
+    <File Path="README.md" />
+    <File Path="up.ps1" />
+  </Folder>
+</Solution>
