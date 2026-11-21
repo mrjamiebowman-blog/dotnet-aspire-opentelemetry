@@ -25,5 +25,4 @@ builder.AddDotnetProject("api-orders", "../../src/MrJb.OpenTelemetry.Api.Orders/
     .WaitFor(rabbitmq)
     .WaitFor(jaeger);
 
-
 builder.Build().Run();

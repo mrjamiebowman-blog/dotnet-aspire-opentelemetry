@@ -1,6 +1,7 @@
 using MrJb.NetAspire.OpenTelemetry;
 using MrJB.OpenTelemetry.Domain.Models;
 using OpenTelemetry.Trace;
+using Scalar.AspNetCore;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -40,9 +41,8 @@ builder.Host.UseSerilog((ctx, lc) => lc
     .ReadFrom.Configuration(ctx.Configuration));
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// OpenAPI document (/openapi/v1.json) rendered by Scalar (/scalar)
+builder.Services.AddOpenApi();
 
 builder.Services.BootstrapApplication(builder.Configuration, builder.Environment);
 
@@ -53,8 +53,8 @@ app.MapDefaultEndpoints();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseHttpsRedirection();
@@ -113,7 +113,6 @@ app.MapPost("/orders", async (ILogger<Program> logger, CancellationToken cancell
         activity?.RecordException(ex);
         throw new Exception("Unable to load orders.");
     }
-}).WithName("GetOrders")
-.WithOpenApi();
+}).WithName("GetOrders");
 
 app.Run();

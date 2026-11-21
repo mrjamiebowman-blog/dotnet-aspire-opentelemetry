@@ -2,6 +2,7 @@ using MrJb.OpenTelemetry.Api.Customers;
 using MrJB.OpenTelemetry.Domain.Models;
 using OpenTelemetry.Trace;
 using RestSharp;
+using Scalar.AspNetCore;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -41,9 +42,8 @@ builder.Host.UseSerilog((ctx, lc) => lc
     .ReadFrom.Configuration(ctx.Configuration));
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// OpenAPI document (/openapi/v1.json) rendered by Scalar (/scalar)
+builder.Services.AddOpenApi();
 
 builder.Services.BootstrapApplication(builder.Configuration, builder.Environment);
 
@@ -54,8 +54,8 @@ app.MapDefaultEndpoints();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseHttpsRedirection();
@@ -85,7 +85,7 @@ app.MapPost("/customers", async (ILogger<Program> logger, CancellationToken canc
 
         try
         {
-            // get orders (http://localhost:5179/swagger)
+            // get orders (http://localhost:5179/scalar)
             var options = new RestClientOptions("http://localhost:5179/");
             var client = new RestClient(options);
             var request = new RestRequest("orders");
@@ -128,7 +128,6 @@ app.MapPost("/customers", async (ILogger<Program> logger, CancellationToken canc
         activity?.RecordException(ex);
         throw new Exception("Unable to load customers.");
     }
-}).WithName("GetCustomers")
-.WithOpenApi();
+}).WithName("GetCustomers");
 
 app.Run();
