@@ -1,28 +1,29 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-// components (just for example...)
-//builder.AddRabbitMQ("rabbitmq");
+// components
+var rabbitmq = builder.AddRabbitMQ("rabbitmq")
+    .WithManagementPlugin();
 
-// jaeger for distributed tracing
-//builder.AddContainer("jaeger", "jaegertracing/all-in-one");
-
-//$ docker run -d --name jaeger \
-//  -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 \
-//  -p 5775:5775 / udp \
-//  -p 6831:6831 / udp \
-//  -p 6832:6832 / udp \
-//  -p 5778:5778 \
-//  -p 16686:16686 \
-//  -p 14268:14268 \
-//  -p 9411:9411 \
-//  jaegertracing / all -in-one:1.6
+// jaeger for distributed tracing (UI: http://localhost:16686)
+// the services export OTLP to http://localhost:4317 (gRPC), so the host ports are fixed
+var jaeger = builder.AddContainer("jaeger", "jaegertracing/jaeger", "2.5.0")
+    .WithHttpEndpoint(port: 16686, targetPort: 16686, name: "ui")
+    .WithEndpoint(port: 4317, targetPort: 4317, name: "otlp-grpc", scheme: "http")
+    .WithHttpEndpoint(port: 4318, targetPort: 4318, name: "otlp-http");
 
 // services
-builder.AddDotnetProject("console", "../../src/MrJb.OpenTelemetry.Console/MrJb.OpenTelemetry.Console.csproj");
+builder.AddDotnetProject("console", "../../src/MrJb.OpenTelemetry.Console/MrJb.OpenTelemetry.Console.csproj")
+    .WaitFor(jaeger);
 
-builder.AddDotnetProject("api-customers", "../../src/MrJb.OpenTelemetry.Api.Customers/MrJb.OpenTelemetry.Api.Customers.csproj");
+builder.AddDotnetProject("api-customers", "../../src/MrJb.OpenTelemetry.Api.Customers/MrJb.OpenTelemetry.Api.Customers.csproj")
+    .WithReference(rabbitmq)
+    .WaitFor(rabbitmq)
+    .WaitFor(jaeger);
 
-builder.AddDotnetProject("api-orders", "../../src/MrJb.OpenTelemetry.Api.Orders/MrJb.OpenTelemetry.Api.Orders.csproj");
+builder.AddDotnetProject("api-orders", "../../src/MrJb.OpenTelemetry.Api.Orders/MrJb.OpenTelemetry.Api.Orders.csproj")
+    .WithReference(rabbitmq)
+    .WaitFor(rabbitmq)
+    .WaitFor(jaeger);
 
 
 builder.Build().Run();
